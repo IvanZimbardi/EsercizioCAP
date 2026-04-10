@@ -1,0 +1,124 @@
+<mvc:View controllerName="com.test.myordersapp.controller.Articles"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form">
+    <Page title="{i18n>lblCAPService}">
+        <content>
+            <Panel class="sapUiResponsiveMargin"
+                width="auto">
+                <HBox wrap="Wrap"
+                    class="sapUiSmallMarginBottom"
+                    alignItems="End">
+                    <VBox class="sapUiSmallMarginEnd">
+                        <Label text="{i18n>lblSearchFor}" />
+                        <Input width="200px"
+                            placeholder="{i18n>lblArticleCode}"
+                            value="{Filters>/CodArticolo}"/>
+                    </VBox>
+                    <VBox class="sapUiSmallMarginEnd">
+                        <Label text="{i18n>lblSearchFor}" />
+                        <Input width="200px"
+                            placeholder="{i18n>lblArticleName}"
+                            value="{Filters>/NomeArticolo}"/>
+                    </VBox>
+                    <HBox>
+                        <Button text="{i18n>btnSearch}"
+                            type="Emphasized"
+                            press=".onSearch"
+                            class="sapUiTinyMarginEnd" />
+                        <Button text="{i18n>btnReset}"
+                            press=".onReset" />
+                    </HBox>
+                </HBox>
+                <Table id="idTableArticles"
+                    items="{Articles>/Data}">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title text="{i18n>lblTable} {i18n>lblArticles}" />
+                            <ToolbarSpacer />
+                            <Button text="{i18n>lblTable} {i18n>lblOrders}"
+                                press=".onNavToOrders"/>
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column >
+                            <Text text="{i18n>lblArticleCode}" />
+                        </Column>
+                        <Column >
+                            <Text text="{i18n>lblArticleName}" />
+                        </Column>
+                        <Column >
+                            <Text text="{i18n>lblImport}" />
+                        </Column>
+                        <Column >
+                            <Text text="{i18n>lblQuantity}" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{Articles>CodArticolo}" />
+                                <Text text="{Articles>NomeArticolo}" />
+                                <Text text="{Articles>Importo}€" />
+                                <Text text="{Articles>QuantitaDisp}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+                <VBox class="sapUiSmallMargin">
+                    <HBox alignItems="Center"
+                        justifyContent="SpaceBetween"
+                        class="sapUiSmallMarginBottom">
+                        <Title text="{i18n>lblAddArt}"/>
+                    </HBox>
+                    <f:SimpleForm editable="true">
+                        <f:content>
+                            <Label text="{i18n>lblArticleCode}"
+                                required="true" />
+                            <Input width="300px"
+                                maxLength="3"
+                                type="Number"
+                                value="{
+                                path: 'NewArticle>/CodArticolo', 
+                                type: 'sap.ui.model.type.Integer'
+                            }" />
+
+                            <Label text="{i18n>lblArticleName}"
+                                required="true" />
+                            <Input width="300px"
+                                maxLength="50"
+                                value="{
+                                path: 'NewArticle>/NomeArticolo'
+                            }" />
+
+                            <Label text="{i18n>lblImport}"
+                                required="true" />
+                            <Input width="600px"
+                                type="Number"
+                                maxLength="4"
+                                value="{
+                                path:'NewArticle>/Importo',
+                                type:'sap.ui.model.type.Integer'
+                            }"
+                                description="€" />
+
+                            <Label text="{i18n>lblQuantity}"
+                                required="true" />
+                            <Input width="300px"
+                                type="Number"
+                                maxLength="2"
+                                value="{
+                                path: 'NewArticle>/QuantitaDisp', 
+                                type: 'sap.ui.model.type.Integer'
+                            }" />
+                        </f:content>
+                    </f:SimpleForm>
+                    <Button text="Salva Prodotto"
+                        type="Emphasized"
+                        icon="sap-icon://save"
+                        press=".onSaveArticle" />
+                </VBox>
+            </Panel>
+        </content>
+    </Page>
+</mvc:View>

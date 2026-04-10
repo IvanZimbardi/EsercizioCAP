@@ -1,0 +1,37 @@
+{
+  "name": "TestCap",
+  "version": "1.0.0",
+  "dependencies": {
+    "@sap-cloud-sdk/connectivity": "^4",
+    "@sap-cloud-sdk/http-client": "^4.5.1",
+    "@sap-cloud-sdk/resilience": "^4.5.1",
+    "@sap/cds": "^9"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2",
+    "cds-plugin-ui5": "^0.13.0"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch-my_orders_app": "cds watch --open com.test.myordersapp/index.html?sap-ui-xx-viewCache=false --livereload false"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "ZEX_ORDERS_SRV": {
+        "kind": "odata-v2",
+        "model": "srv/external/ZEX_ORDERS_SRV",
+        "credentials": {
+          "url": "http://65.109.172.114:8000/sap/opu/odata/sap/ZEX_ORDERS_SRV/",
+          "username": "fdipasquale",
+          "password": "Matera0835!"
+        },
+        "csrf": true,
+        "csrfInAllRequests": true
+      }
+    }
+  },
+  "workspaces": [
+    "app/*"
+  ]
+}

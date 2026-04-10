@@ -1,0 +1,58 @@
+<mvc:View controllerName="com.test.myordersapp.controller.Orders"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m">
+  <Page title="{i18n>lblCAPService}">
+    <content>
+      <Panel class="sapUiResponsiveMargin"
+        width="auto">
+        <Table items="{Orders>/Data}">
+          <headerToolbar>
+            <OverflowToolbar>
+              <Title text="{i18n>lblTable} {i18n>lblOrders}" />
+              <ToolbarSpacer />
+              <Button text="{i18n>lblTable} {i18n>lblArticles}"
+                press=".onNavToArticles"/>
+            </OverflowToolbar>
+          </headerToolbar>
+          <columns>
+            <Column>
+              <Text text="{i18n>lblOrderNumber}" />
+            </Column>
+            <Column>
+              <Text text="{i18n>lblClient}" />
+            </Column>
+            <Column>
+              <Text text="{i18n>lblOrderDate}" />
+            </Column>
+            <Column>
+              <Text text="{i18n>lblTotalImport}" />
+            </Column>
+            <Column>
+              <Text text="{i18n>lblStatus}" />
+            </Column>
+            <Column hAlign="End" />
+          </columns>
+          <items>
+            <ColumnListItem>
+              <cells>
+                <Text text="{Orders>NumOrdine}" />
+                <Text text="{Orders>Cliente}" />
+                <Text text="{path: 'Orders>DataOrdine', 
+                  type: 'sap.ui.model.type.Date',
+                  formatOptions: {
+                  source: {
+                  pattern: 'yyyy-MM-ddTHH:mm:ssX'
+                    },
+                  pattern: 'd MMMM yyyy'
+                  }
+                }" />
+                <Text text="{Orders>ImportoTot}€" />
+                <Text text="{Orders>StatoTxt}" />
+              </cells>
+            </ColumnListItem>
+          </items>
+        </Table>
+      </Panel>
+    </content>
+  </Page>
+</mvc:View>

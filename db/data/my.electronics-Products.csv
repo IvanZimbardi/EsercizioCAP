@@ -1,0 +1,5 @@
+ID;title;brand;stock;price;category_ID
+1;Samsung Galaxy S26;Samsung;70;1100.00;1
+2;Iphone 17 Pro;Apple;30;1600.00;1
+3;Monitor 4K;LG;50;600.00;2
+4;GeForce RTX 5090;Nvidia;10;4000.00;3

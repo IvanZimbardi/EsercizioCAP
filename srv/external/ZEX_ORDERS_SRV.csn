@@ -1,0 +1,232 @@
+{
+  "meta": {
+    "creator": "cds-dk 9.8.2"
+  },
+  "$version": "2.0",
+  "definitions": {
+    "ZEX_ORDERS_SRV": {
+      "kind": "service",
+      "@cds.external": true,
+      "@m.IsDefaultEntityContainer": "true",
+      "@sap.supported.formats": "atom json xlsx"
+    },
+    "ZEX_ORDERS_SRV.ZES_lista_ordiniSet": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.pageable": "false",
+      "@sap.addressable": "false",
+      "@sap.content.version": "1",
+      "elements": {
+        "NumOrdine": {
+          "key": true,
+          "type": "cds.Integer",
+          "@sap.unicode": "false",
+          "@sap.label": "Numero ordine",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "notNull": true
+        },
+        "Cliente": {
+          "type": "cds.String",
+          "length": 50,
+          "@sap.unicode": "false",
+          "@sap.label": "c",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false"
+        },
+        "DataOrdine": {
+          "type": "cds.DateTime",
+          "@odata.Type": "Edm.DateTime",
+          "@sap.unicode": "false",
+          "@sap.label": "Time Stamp",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "@sap.filterable": "false"
+        },
+        "ImportoTot": {
+          "type": "cds.Integer",
+          "@sap.unicode": "false",
+          "@sap.label": "Counter",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "@sap.filterable": "false"
+        },
+        "Stato": {
+          "type": "cds.Integer",
+          "@sap.unicode": "false",
+          "@sap.label": "Stato ordine",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false"
+        },
+        "StatoTxt": {
+          "type": "cds.String",
+          "length": 30,
+          "@sap.unicode": "false",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false"
+        }
+      }
+    },
+    "ZEX_ORDERS_SRV.ZES_dettagli_ordiniSet": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.pageable": "false",
+      "@sap.addressable": "false",
+      "@sap.content.version": "1",
+      "elements": {
+        "NumOrdine": {
+          "key": true,
+          "type": "cds.Integer",
+          "@sap.unicode": "false",
+          "@sap.label": "Numero ordine",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "notNull": true
+        },
+        "CodArticolo": {
+          "key": true,
+          "type": "cds.Integer",
+          "@sap.unicode": "false",
+          "@sap.label": "Dummy",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "notNull": true
+        },
+        "NomeArticolo": {
+          "type": "cds.String",
+          "length": 50,
+          "@sap.unicode": "false",
+          "@sap.label": "c",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "@sap.filterable": "false"
+        },
+        "QuantitaOrdine": {
+          "type": "cds.Integer",
+          "@sap.unicode": "false",
+          "@sap.label": "Two-digit no.",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "@sap.filterable": "false"
+        },
+        "Importo": {
+          "type": "cds.Integer",
+          "@sap.unicode": "false",
+          "@sap.label": "Counter",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "@sap.filterable": "false"
+        }
+      }
+    },
+    "ZEX_ORDERS_SRV.ZES_articoliSet": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.pageable": "false",
+      "@sap.addressable": "false",
+      "@sap.content.version": "1",
+      "elements": {
+        "CodArticolo": {
+          "key": true,
+          "type": "cds.Integer",
+          "@sap.unicode": "false",
+          "@sap.label": "Dummy",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "notNull": true
+        },
+        "NomeArticolo": {
+          "type": "cds.String",
+          "length": 50,
+          "@sap.unicode": "false",
+          "@sap.label": "c",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false"
+        },
+        "Importo": {
+          "type": "cds.Integer",
+          "@sap.unicode": "false",
+          "@sap.label": "Counter",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "@sap.filterable": "false"
+        },
+        "QuantitaDisp": {
+          "type": "cds.Integer",
+          "@sap.unicode": "false",
+          "@sap.label": "Two-digit no.",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "@sap.filterable": "false"
+        }
+      }
+    },
+    "ZEX_ORDERS_SRV.ZES_DeepOrdiniSet": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.pageable": "false",
+      "@sap.addressable": "false",
+      "@sap.content.version": "1",
+      "elements": {
+        "NumOrdine": {
+          "key": true,
+          "type": "cds.Integer",
+          "@sap.unicode": "false",
+          "@sap.label": "Numero ordine",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "notNull": true
+        },
+        "Operation": {
+          "type": "cds.String",
+          "@sap.unicode": "false",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "@sap.filterable": "false"
+        },
+        "ZET_dettagli_ordiniSet": {
+          "type": "cds.Association",
+          "target": "ZEX_ORDERS_SRV.ZES_dettagli_ordiniSet",
+          "cardinality": {
+            "max": "*"
+          },
+          "keys": []
+        },
+        "ZET_lista_ordini": {
+          "type": "cds.Association",
+          "target": "ZEX_ORDERS_SRV.ZES_lista_ordiniSet",
+          "keys": []
+        }
+      }
+    }
+  }
+}
