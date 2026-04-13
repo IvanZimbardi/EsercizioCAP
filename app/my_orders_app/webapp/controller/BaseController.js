@@ -26,6 +26,24 @@ sap.ui.define(
         return this.getOwnerComponent().getModel("i18n").getResourceBundle().getText(sKey);
       },
 
+      loadFragment: function (sFragmentName) {
+        const oView = this.getView();
+        let oFragment = oView.byId(sFragmentName);
+
+        if (oFragment) {
+          return Promise.resolve(oFragment);
+        }
+
+        return sap.ui.core.Fragment.load({
+          id: oView.getId(),
+          name: "com.test.myordersapp.view.dialog." + sFragmentName,
+          controller: this,
+        }).then((oNewFragment) => {
+          oView.addDependent(oNewFragment);
+          return oNewFragment;
+        });
+      },
+
       loadData: async function (sUrl, sModelName, aFilters, iTop, iSkip) {
         const oView = this.getView();
         oView.setBusy(true);
@@ -126,6 +144,30 @@ sap.ui.define(
           return true;
         } catch (error) {
           console.error(error);
+          throw error;
+        } finally {
+          oView.setBusy(false);
+        }
+      },
+
+      updateData: async function (sUrl, oPayload) {
+        const oView = this.getView();
+        oView.setBusy(true);
+
+        try {
+          const response = await fetch(sUrl, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(oPayload),
+          });
+
+          if (!response.ok) {
+            const oError = await response.json().catch(() => ({}));
+            throw new Error(oError.error?.message || `Errore: ${response.status}`);
+          }
+
+          return true;
+        } catch (error) {
           throw error;
         } finally {
           oView.setBusy(false);

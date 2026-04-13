@@ -30,6 +30,8 @@ sap.ui.define(
 
         this.oModelCreate = this.setModel(new JSONModel(Object.assign({}, INIT_MODEL_ARTICLES)), "NewArticle");
 
+        this.oModelEdit = this.setModel(new JSONModel({}), "EditArticle");
+
         this.loadProducts();
       },
 
@@ -78,6 +80,8 @@ sap.ui.define(
           MessageBox.success(this.getText("MsgCreateSuccess"));
 
           this.oModelCreate.setData(Object.assign({}, INIT_MODEL_ARTICLES));
+
+          this.onCloseCreateDialog();
 
           await this.loadProducts();
         } catch (error) {
@@ -137,6 +141,34 @@ sap.ui.define(
             }
           },
         });
+      },
+      onOpenCreateDialog: async function () {
+        this.getModel("NewArticle").setData(Object.assign({}, INIT_MODEL_ARTICLES));
+        const oDialog = await this.loadFragment("AddProd");
+        oDialog.open();
+      },
+
+      onCloseCreateDialog: function () {
+        const oDialog = this.getView().byId("AddProd");
+        if (oDialog) {
+          oDialog.close();
+        }
+      },
+
+      onOpenEditDialog: async function (oEvent) {
+        const oItem = oEvent.getSource().getBindingContext("Articles").getObject();
+
+        this.oModelEdit.setData(Object.assign({}, oItem));
+
+        const oDialog = await this.loadFragment("EditProd");
+        oDialog.open();
+      },
+
+      onCloseEditDialog: function () {
+        const oDialog = this.getView().byId("EditProd");
+        if (oDialog) {
+          oDialog.close();
+        }
       },
     });
   },

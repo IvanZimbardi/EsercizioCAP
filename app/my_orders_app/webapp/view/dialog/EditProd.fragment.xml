@@ -1,0 +1,66 @@
+<c:FragmentDefinition xmlns="sap.m"
+  xmlns:c="sap.ui.core"
+  xmlns:f="sap.ui.layout.form">
+  <Dialog title="{i18n>lblEditArt}"
+    id="EditProd">
+    <content>
+      <VBox class="sapUiSmallMargin">
+        <HBox alignItems="Center"
+          justifyContent="SpaceBetween"
+          class="sapUiSmallMarginBottom">
+        </HBox>
+        <f:SimpleForm editable="true">
+          <f:content>
+            <Label text="{i18n>lblArticleCode}"
+              required="true" />
+            <Input width="300px"
+              maxLength="3"
+              type="Number"
+              value="{
+                path: 'EditArticle>/CodArticolo', 
+                type: 'sap.ui.model.type.Integer'
+              }" />
+
+            <Label text="{i18n>lblArticleName}"
+              required="true" />
+            <Input width="300px"
+              maxLength="50"
+              value="{
+                path: 'EditArticle>/NomeArticolo'
+              }" />
+
+            <Label text="{i18n>lblImport}"
+              required="true" />
+            <Input width="600px"
+              type="Number"
+              maxLength="4"
+              value="{
+                path:'EditArticle>/Importo',
+                type:'sap.ui.model.type.Integer'
+              }"
+              description="€" />
+
+            <Label text="{i18n>lblQuantity}"
+              required="true" />
+            <Input width="300px"
+              type="Number"
+              maxLength="2"
+              value="{
+                path: 'EditArticle>/QuantitaDisp', 
+                type: 'sap.ui.model.type.Integer'
+              }" />
+          </f:content>
+        </f:SimpleForm>
+        <OverflowToolbar >
+          <Button text="{i18n>btnSave}"
+            type="Emphasized"
+            icon="sap-icon://save"
+            press=".onSaveArticle" />
+          <ToolbarSpacer />
+          <Button text="{i18n>btnCancel}"
+            press=".onCloseEditDialog" />
+        </OverflowToolbar>
+      </VBox>
+    </content>
+  </Dialog>
+</c:FragmentDefinition>
