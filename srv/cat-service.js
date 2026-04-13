@@ -21,7 +21,7 @@ module.exports = cds.service.impl(async function () {
     return aData;
   });
 
-  this.on("READ", "Articles", async (req) => {
+  this.on("READ", "Orders", async (req) => {
     return remote.run(req.query);
   });
 
