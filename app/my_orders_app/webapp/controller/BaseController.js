@@ -52,7 +52,7 @@ sap.ui.define(
           const oModel = this.getModel(sModelName);
 
           oModel.setProperty("/Data", oData.value);
-          oModel.setProperty("/Count", oData.count || 0);
+          oModel.setProperty("/Count", oData["@odata.count"] || 0);
         } catch (error) {
           console.error(error);
         } finally {
@@ -90,19 +90,12 @@ sap.ui.define(
             body: JSON.stringify(oPayload),
           });
           if (!response.ok) {
-            let sErrorMessage = "Errore durante il salvataggio";
-            try {
-              const oErrorData = await response.json();
-              sErrorMessage = oErrorData.error?.message || sErrorMessage;
-            } catch (error) {
-              sErrorMessage = `Errore server: ${response.status} ${response.statusText}`;
-            }
-            throw new Error(sErrorMessage);
+            const oError = await response.json().catch(() => ({}));
+            const sMsg = oError.error?.message || `Errore Server: ${response.status}`;
+
+            throw new Error(sMsg);
           }
-          const sContentType = response.headers.get("content-type");
-          if (response.status === 204 || !sContentType || !sContentType.includes("application/json")) {
-            return {};
-          }
+          if (response.status === 204) return {};
           return await response.json();
         } catch (error) {
           console.error(error);

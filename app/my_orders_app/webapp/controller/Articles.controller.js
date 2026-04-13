@@ -88,11 +88,15 @@ sap.ui.define(
       onNextPage: async function () {
         let iSkip = this.oModelPaging.getProperty("/skip");
         const iTop = this.oModelPaging.getProperty("/top");
+        const iTotal = this.oModelArticles.getProperty("/Count");
+
+        if (iSkip + iTop >= iTotal) {
+          return;
+        }
 
         iSkip += iTop;
 
         this.oModelPaging.setProperty("/skip", iSkip);
-
         await this.loadProducts();
       },
 
@@ -100,11 +104,14 @@ sap.ui.define(
         let iSkip = this.oModelPaging.getProperty("/skip");
         const iTop = this.oModelPaging.getProperty("/top");
 
+        if (iSkip <= 0) {
+          return;
+        }
+
         iSkip -= iTop;
         if (iSkip < 0) iSkip = 0;
 
         this.oModelPaging.setProperty("/skip", iSkip);
-
         await this.loadProducts();
       },
     });

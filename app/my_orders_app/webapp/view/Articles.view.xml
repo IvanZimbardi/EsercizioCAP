@@ -69,11 +69,13 @@
                     <ToolbarSpacer />
                     <Button icon="sap-icon://navigation-left-arrow"
                         type="Transparent"
-                        press=".onPreviousPage" />
+                        press=".onPreviousPage"
+                        enabled="{= ${Paging>/skip} > 0 }" />
 
                     <Button icon="sap-icon://navigation-right-arrow"
                         type="Transparent"
-                        press=".onNextPage" />
+                        press=".onNextPage"
+                        enabled="{= ${Articles>/Count} > ${Paging>/skip} + ${Paging>/top} }"/>
                     <ToolbarSpacer />
                 </OverflowToolbar>
                 <VBox class="sapUiSmallMargin">
