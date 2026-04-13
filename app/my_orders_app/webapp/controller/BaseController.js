@@ -44,15 +44,15 @@ sap.ui.define(
           aQueryParams.push("$count=true");
 
           const sFullUrl = sUrl + (aQueryParams.length > 0 ? "?" + aQueryParams.join("&") : "");
-
+          console.log("URL FINALE:", sFullUrl);
           const response = await fetch(sFullUrl);
-          if (!response.ok) throw new Error(error);
+          if (!response.ok) throw new Error(response.statusText);
 
           const oData = await response.json();
           const oModel = this.getModel(sModelName);
 
           oModel.setProperty("/Data", oData.value);
-          oModel.setProperty("/Count", oData["@odata.count"] || 0);
+          oModel.setProperty("/Count", oData.count || 0);
         } catch (error) {
           console.error(error);
         } finally {
@@ -94,7 +94,7 @@ sap.ui.define(
             try {
               const oErrorData = await response.json();
               sErrorMessage = oErrorData.error?.message || sErrorMessage;
-            } catch (e) {
+            } catch (error) {
               sErrorMessage = `Errore server: ${response.status} ${response.statusText}`;
             }
             throw new Error(sErrorMessage);
