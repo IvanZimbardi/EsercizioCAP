@@ -44,7 +44,6 @@ sap.ui.define(
           aQueryParams.push("$count=true");
 
           const sFullUrl = sUrl + (aQueryParams.length > 0 ? "?" + aQueryParams.join("&") : "");
-          console.log("URL FINALE:", sFullUrl);
           const response = await fetch(sFullUrl);
           if (!response.ok) throw new Error(response.statusText);
 
@@ -97,6 +96,34 @@ sap.ui.define(
           }
           if (response.status === 204) return {};
           return await response.json();
+        } catch (error) {
+          console.error(error);
+          throw error;
+        } finally {
+          oView.setBusy(false);
+        }
+      },
+
+      deleteData: async function (sUrl) {
+        const oView = this.getView();
+        oView.setBusy(true);
+
+        try {
+          const response = await fetch(sUrl, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!response.ok) {
+            const oError = await response.json().catch(() => ({}));
+            const sMsg = oError.error?.message || `Errore durante l'eliminazione: ${response.status}`;
+
+            throw new Error(sMsg);
+          }
+
+          return true;
         } catch (error) {
           console.error(error);
           throw error;

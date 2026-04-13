@@ -21,11 +21,15 @@ module.exports = cds.service.impl(async function () {
     return aData;
   });
 
-  this.on("READ", "Orders", async (req) => {
+  this.on("CREATE", "Articles", async (req) => {
     return remote.run(req.query);
   });
 
-  this.on("CREATE", "Articles", async (req) => {
+  this.on("DELETE", "Articles", async (req) => {
+    return remote.run(req.query);
+  });
+
+  this.on("READ", "Orders", async (req) => {
     return remote.run(req.query);
   });
 });

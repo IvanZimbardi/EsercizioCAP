@@ -53,6 +53,10 @@
                         <Column >
                             <Text text="{i18n>lblQuantity}" />
                         </Column>
+                        <Column width="3rem"
+                            hAlign="End">
+                            <Text text="" />
+                        </Column>
                     </columns>
                     <items>
                         <ColumnListItem>
@@ -61,6 +65,9 @@
                                 <Text text="{Articles>NomeArticolo}" />
                                 <Text text="{Articles>Importo}€" />
                                 <Text text="{Articles>QuantitaDisp}" />
+                                <Button icon="sap-icon://delete"
+                                    type="Reject"
+                                    press=".onDeleteArticle" />
                             </cells>
                         </ColumnListItem>
                     </items>

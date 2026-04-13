@@ -114,6 +114,30 @@ sap.ui.define(
         this.oModelPaging.setProperty("/skip", iSkip);
         await this.loadProducts();
       },
+
+      onDeleteArticle: function (oEvent) {
+        const oItem = oEvent.getSource().getBindingContext("Articles").getObject();
+        const sId = oItem.CodArticolo;
+
+        MessageBox.warning(this.getText("msgConfirmDelete"), {
+          actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+          onClose: async (sKey) => {
+            if (sKey === MessageBox.Action.YES) {
+              try {
+                const sUrl = `/odata/v4/catalog/Articles(${sId})`;
+
+                await this.deleteData(sUrl);
+
+                MessageBox.success(this.getText("MsgDeleteCompleted"));
+
+                await this.loadProducts();
+              } catch (error) {
+                MessageBox.error(error.message);
+              }
+            }
+          },
+        });
+      },
     });
   },
 );
