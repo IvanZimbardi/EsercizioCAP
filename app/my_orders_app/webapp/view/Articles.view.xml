@@ -65,6 +65,17 @@
                         </ColumnListItem>
                     </items>
                 </Table>
+                <OverflowToolbar >
+                    <ToolbarSpacer />
+                    <Button icon="sap-icon://navigation-left-arrow"
+                        type="Transparent"
+                        press=".onPreviousPage" />
+
+                    <Button icon="sap-icon://navigation-right-arrow"
+                        type="Transparent"
+                        press=".onNextPage" />
+                    <ToolbarSpacer />
+                </OverflowToolbar>
                 <VBox class="sapUiSmallMargin">
                     <HBox alignItems="Center"
                         justifyContent="SpaceBetween"

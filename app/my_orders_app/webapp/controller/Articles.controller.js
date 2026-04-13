@@ -1,14 +1,19 @@
 sap.ui.define(
-  ["./BaseController", "sap/ui/model/json/JSONModel", "../util/entityUtils", "sap/m/MessageToast", "sap/m/MessageBox"],
-  (BaseController, JSONModel, entityUtils, MessageToast, MessageBox) => {
+  ["./BaseController", "sap/ui/model/json/JSONModel", "../util/entityUtils", "sap/m/MessageBox"],
+  (BaseController, JSONModel, entityUtils, MessageBox) => {
     "use strict";
+
+    const INIT_PAGING = {
+      top: 10,
+      skip: 0,
+    };
 
     const INIT_MODEL_FILTERS = {
       CodArticolo: "",
       NomeArticolo: "",
     };
 
-    const INIT_PRODUCTS = {
+    const INIT_MODEL_ARTICLES = {
       CodArticolo: "",
       NomeArticolo: "",
       Importo: 0,
@@ -19,9 +24,12 @@ sap.ui.define(
       onInit: function () {
         this.oModelArticles = this.setModel(new JSONModel({}), "Articles");
 
-        this.oModelCreate = this.setModel(new JSONModel(Object.assign({}, INIT_PRODUCTS)), "NewArticle");
+        this.oModelPaging = this.setModel(new JSONModel(Object.assign({}, INIT_PAGING)), "Paging");
 
         this.oModelFilters = this.setModel(new JSONModel(Object.assign({}, INIT_MODEL_FILTERS)), "Filters");
+
+        this.oModelCreate = this.setModel(new JSONModel(Object.assign({}, INIT_MODEL_ARTICLES)), "NewArticle");
+
         this.loadProducts();
       },
 
@@ -30,47 +38,74 @@ sap.ui.define(
       },
 
       loadProducts: async function () {
-        await this.loadData("/odata/v4/catalog/Articles", "Articles");
+        const oPaging = this.oModelPaging.getData();
+        const oFilterData = this.oModelFilters.getData();
+        const aFilters = [];
+
+        if (oFilterData.CodArticolo) {
+          entityUtils.setFilterEQ(aFilters, "CodArticolo", oFilterData.CodArticolo);
+        }
+        if (oFilterData.NomeArticolo) {
+          entityUtils.setFilterContains(aFilters, "NomeArticolo", oFilterData.NomeArticolo);
+        }
+
+        await this.loadData("/odata/v4/catalog/Articles", "Articles", aFilters, oPaging.top, oPaging.skip);
       },
 
       onSearch: async function () {
-        const aFilters = [];
-        const oData = this.oModelFilters.getData();
-
-        if (oData.CodArticolo) {
-          entityUtils.setFilterEQ(aFilters, "CodArticolo", oData.CodArticolo);
-        }
-        if (oData.NomeArticolo) {
-          entityUtils.setFilterContains(aFilters, "NomeArticolo", oData.NomeArticolo);
-        }
-
-        await this.loadData("/odata/v4/catalog/Articles", "Articles", aFilters);
+        this.oModelPaging.setProperty("/skip", 0);
+        await this.loadProducts();
       },
 
       onReset: async function () {
-        this.oModelFilters.setData(INIT_MODEL_FILTERS);
-        await this.loadData("/odata/v4/catalog/Articles", "Articles");
+        this.oModelFilters.setData(Object.assign({}, INIT_MODEL_FILTERS));
+        this.oModelPaging.setProperty("/skip", 0);
+
+        await this.loadProducts();
       },
 
       onSaveArticle: async function () {
-        const oNewArticleData = this.getModel("NewArticle").getData();
+        const oNewArticleData = this.oModelCreate.getData();
 
         if (!oNewArticleData.CodArticolo || !oNewArticleData.NomeArticolo) {
-          sap.m.MessageBox.error("Per favore, compila i campi obbligatori.");
+          MessageBox.error(this.getText("MsgErrorFields"));
           return;
         }
 
         try {
           await this.createData("/odata/v4/catalog/Articles", oNewArticleData);
 
-          sap.m.MessageToast.show("Articolo creato con successo!");
+          MessageBox.success(this.getText("MsgCreateSuccess"));
 
-          this.getModel("NewArticle").setData(Object.assign({}, INIT_PRODUCTS));
+          this.oModelCreate.setData(Object.assign({}, INIT_MODEL_ARTICLES));
 
           await this.loadProducts();
         } catch (error) {
-          sap.m.MessageBox.error(error.message);
+          MessageBox.error(error.message);
         }
+      },
+
+      onNextPage: async function () {
+        let iSkip = this.oModelPaging.getProperty("/skip");
+        const iTop = this.oModelPaging.getProperty("/top");
+
+        iSkip += iTop;
+
+        this.oModelPaging.setProperty("/skip", iSkip);
+
+        await this.loadProducts();
+      },
+
+      onPreviousPage: async function () {
+        let iSkip = this.oModelPaging.getProperty("/skip");
+        const iTop = this.oModelPaging.getProperty("/top");
+
+        iSkip -= iTop;
+        if (iSkip < 0) iSkip = 0;
+
+        this.oModelPaging.setProperty("/skip", iSkip);
+
+        await this.loadProducts();
       },
     });
   },

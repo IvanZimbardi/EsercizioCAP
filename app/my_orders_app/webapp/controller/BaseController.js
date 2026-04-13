@@ -22,27 +22,39 @@ sap.ui.define(
         this.getRouter().navTo(sName, oParameters, undefined, bReplace);
       },
 
-      loadData: async function (sUrl, sModelName, aFilters) {
+      getText: function (sKey) {
+        return this.getOwnerComponent().getModel("i18n").getResourceBundle().getText(sKey);
+      },
+
+      loadData: async function (sUrl, sModelName, aFilters, iTop, iSkip) {
         const oView = this.getView();
         oView.setBusy(true);
 
         try {
-          let sFullUrl = sUrl;
+          let aQueryParams = [];
 
           if (aFilters && aFilters.length > 0) {
             const sFilterQuery = this._serializeFilters(aFilters);
-            sFullUrl += "?$filter=" + encodeURIComponent(sFilterQuery);
+            aQueryParams.push("$filter=" + encodeURIComponent(sFilterQuery));
           }
 
+          if (iTop !== undefined) aQueryParams.push(`$top=${iTop}`);
+          if (iSkip !== undefined) aQueryParams.push(`$skip=${iSkip}`);
+
+          aQueryParams.push("$count=true");
+
+          const sFullUrl = sUrl + (aQueryParams.length > 0 ? "?" + aQueryParams.join("&") : "");
+
           const response = await fetch(sFullUrl);
-          if (!response.ok) throw new Error("Errore nel caricamento dei dati dal server");
+          if (!response.ok) throw new Error(error);
 
           const oData = await response.json();
           const oModel = this.getModel(sModelName);
 
           oModel.setProperty("/Data", oData.value);
+          oModel.setProperty("/Count", oData["@odata.count"] || 0);
         } catch (error) {
-          console.error("Errore OData:", error);
+          console.error(error);
         } finally {
           oView.setBusy(false);
         }
