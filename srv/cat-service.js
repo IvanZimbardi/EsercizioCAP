@@ -25,6 +25,10 @@ module.exports = cds.service.impl(async function () {
     return remote.run(req.query);
   });
 
+  this.on("PATCH", "Articles", async (req) => {
+    return remote.run(req.query);
+  });
+
   this.on("DELETE", "Articles", async (req) => {
     return remote.run(req.query);
   });

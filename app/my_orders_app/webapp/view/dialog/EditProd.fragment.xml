@@ -11,11 +11,11 @@
         </HBox>
         <f:SimpleForm editable="true">
           <f:content>
-            <Label text="{i18n>lblArticleCode}"
-              required="true" />
+            <Label text="{i18n>lblArticleCode}" />
             <Input width="300px"
               maxLength="3"
               type="Number"
+              enabled="false"
               value="{
                 path: 'EditArticle>/CodArticolo', 
                 type: 'sap.ui.model.type.Integer'
@@ -52,13 +52,13 @@
           </f:content>
         </f:SimpleForm>
         <OverflowToolbar >
+          <Button text="{i18n>btnCancel}"
+            press=".onCloseEditDialog" />
+          <ToolbarSpacer />
           <Button text="{i18n>btnSave}"
             type="Emphasized"
             icon="sap-icon://save"
-            press=".onSaveArticle" />
-          <ToolbarSpacer />
-          <Button text="{i18n>btnCancel}"
-            press=".onCloseEditDialog" />
+            press=".onEditArticle" />
         </OverflowToolbar>
       </VBox>
     </content>

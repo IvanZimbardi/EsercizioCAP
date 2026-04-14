@@ -69,7 +69,8 @@ sap.ui.define(
           const oModel = this.getModel(sModelName);
 
           oModel.setProperty("/Data", oData.value);
-          oModel.setProperty("/Count", oData["@odata.count"] || 0);
+          const iCount = oData["@odata.count"] ? Number(oData["@odata.count"]) : 0;
+          oModel.setProperty("/Count", iCount);
         } catch (error) {
           console.error(error);
         } finally {

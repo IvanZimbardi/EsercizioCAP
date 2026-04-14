@@ -37,7 +37,8 @@
                             <Title text="{i18n>lblTable} {i18n>lblArticles}" />
                             <ToolbarSpacer />
                             <Button text="{i18n>lblAddArt}"
-                                press=".onOpenCreateDialog"/>
+                                press=".onOpenCreateDialog"
+                                icon="sap-icon://add-product"/>
                             <Button text="{i18n>lblTable} {i18n>lblOrders}"
                                 press=".onNavToOrders"/>
                         </OverflowToolbar>

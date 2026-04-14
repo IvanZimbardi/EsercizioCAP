@@ -142,8 +142,33 @@ sap.ui.define(
           },
         });
       },
+
+      onEditArticle: async function () {
+        const oData = this.oModelEdit.getData();
+        const sUrl = `/odata/v4/catalog/Articles(${oData.CodArticolo})`;
+
+        try {
+          await this.updateData(sUrl, oData);
+
+          MessageBox.success(this.getText("MsgEditSuccess"));
+
+          this.onCloseEditDialog();
+
+          await this.loadProducts();
+        } catch (error) {
+          MessageBox.error(error.message);
+        }
+      },
+
       onOpenCreateDialog: async function () {
-        this.getModel("NewArticle").setData(Object.assign({}, INIT_MODEL_ARTICLES));
+        this.oModelCreate.setData(Object.assign({}, INIT_MODEL_ARTICLES));
+
+        const iTotalArticles = this.oModelArticles.getProperty("/Count") || 0;
+
+        const iNextId = iTotalArticles + 1;
+
+        this.oModelCreate.setProperty("/CodArticolo", iNextId);
+
         const oDialog = await this.loadFragment("AddProd");
         oDialog.open();
       },
@@ -157,9 +182,7 @@ sap.ui.define(
 
       onOpenEditDialog: async function (oEvent) {
         const oItem = oEvent.getSource().getBindingContext("Articles").getObject();
-
         this.oModelEdit.setData(Object.assign({}, oItem));
-
         const oDialog = await this.loadFragment("EditProd");
         oDialog.open();
       },
